@@ -1,4 +1,4 @@
-﻿namespace LiveDashboard.Core.Domain
+﻿namespace LiveDashboard.Shared.Domain
 {
     public class ShipmentAddress : EntityBase
     {

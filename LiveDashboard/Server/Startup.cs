@@ -1,5 +1,5 @@
 using LiveDashboard.Core.Data;
-using LiveDashboard.Core.Domain;
+using LiveDashboard.Core.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

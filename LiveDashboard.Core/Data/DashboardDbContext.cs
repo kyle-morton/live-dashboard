@@ -1,5 +1,6 @@
 ﻿using IdentityServer4.EntityFramework.Options;
-using LiveDashboard.Core.Domain;
+using LiveDashboard.Core.Identity;
+using LiveDashboard.Shared.Domain;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace LiveDashboard.Core.Domain
+namespace LiveDashboard.Core.Identity
 {
     public class ApplicationUser : IdentityUser
     {
