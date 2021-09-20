@@ -10,9 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\LiveDashboard.Core\LiveDashboard.Core.csproj" />
-    <ProjectReference Include="..\Client\LiveDashboard.Client.csproj" />
-    <ProjectReference Include="..\Shared\LiveDashboard.Shared.csproj" />
+    <ProjectReference Include="..\LiveDashboard.Core\LiveDashboard.Core.csproj" />
+    <ProjectReference Include="..\LiveDashboard.Client\LiveDashboard.Client.csproj" />
+    <ProjectReference Include="..\LiveDashboard.Shared\LiveDashboard.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

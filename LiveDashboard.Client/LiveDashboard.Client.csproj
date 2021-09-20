@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\LiveDashboard.Shared.csproj" />
+    <ProjectReference Include="..\LiveDashboard.Shared\LiveDashboard.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
