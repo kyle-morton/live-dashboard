@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using LiveDashboard.Core.Data;
+using LiveDashboard.Core.Identity;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,7 +17,25 @@ namespace LiveDashboard.Server
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    DbInitializer.Initialize(
+                        services.GetRequiredService<DashboardDbContext>(),
+                        services.GetRequiredService<UserManager<ApplicationUser>>(),
+                        services.GetRequiredService<RoleManager<IdentityRole>>()
+                    ).Wait();
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
