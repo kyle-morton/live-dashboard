@@ -1,0 +1,55 @@
+﻿@page "/shipments"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using LiveDashboard.Shared
+@using LiveDashboard.Client.ViewModels.Shipments
+@attribute [Authorize]
+@inject HttpClient Http
+
+<h1>Shipments</h1>
+
+
+@if (shipments == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Origin</th>
+                <th>Destination</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var shipment in shipments)
+            {
+                <tr>
+                    <td>@shipment.Id</td>
+                    <td>@shipment.OriginAddress.Label</td>
+                    <td>@shipment.DestinationAddress.Label</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private List<ShipmentViewModel> shipments;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            shipments = await Http.GetFromJsonAsync<List<ShipmentViewModel>>("Shipments");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+}

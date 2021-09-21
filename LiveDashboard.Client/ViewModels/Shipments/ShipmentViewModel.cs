@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LiveDashboard.Shared.ViewModels.Shipments
+namespace LiveDashboard.Client.ViewModels.Shipments
 {
     public class ShipmentViewModel
     {

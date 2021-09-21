@@ -1,5 +1,5 @@
 ﻿using LiveDashboard.Shared.Domain;
-using LiveDashboard.Shared.ViewModels.Shipments;
+using LiveDashboard.Client.ViewModels.Shipments;
 using System.Collections.Generic;
 using System.Linq;
 
