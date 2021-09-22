@@ -3,13 +3,13 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using LiveDashboard.Shared
 @using LiveDashboard.Client.ViewModels.Shipments
-@attribute [Authorize]
 @inject HttpClient Http
 
 <h1>Shipments</h1>
 
+<a @onclick="LoadMoreShipments" class="btn btn-primary">Load More</a>
 
-@if (shipments == null)
+@if (model == null || model.Shipments == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -18,13 +18,13 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
+                <th>ID</th>
                 <th>Origin</th>
                 <th>Destination</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var shipment in shipments)
+            @foreach (var shipment in model.Shipments)
             {
                 <tr>
                     <td>@shipment.Id</td>
@@ -34,22 +34,31 @@ else
             }
         </tbody>
     </table>
+
 }
+
 
 @code {
 
-    private List<ShipmentViewModel> shipments;
+    private IndexViewModel model;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            shipments = await Http.GetFromJsonAsync<List<ShipmentViewModel>>("Shipments");
+            model = await Http.GetFromJsonAsync<IndexViewModel>("Shipment");
         }
         catch (AccessTokenNotAvailableException exception)
         {
             exception.Redirect();
         }
+    }
+
+    public async Task LoadMoreShipments()
+    {
+        var response = await Http.PostAsync("Shipment", null);
+        var shipments = await response.Content.ReadFromJsonAsync<List<ShipmentViewModel>>();
+        model.Shipments.AddRange(shipments);
     }
 
 }

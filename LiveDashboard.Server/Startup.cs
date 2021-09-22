@@ -1,5 +1,6 @@
 using LiveDashboard.Core.Data;
 using LiveDashboard.Core.Identity;
+using LiveDashboard.Core.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,6 +44,8 @@ namespace LiveDashboard.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddTransient<IShipmentService, ShipmentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
