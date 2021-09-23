@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
+using LiveDashboard.Shared.Domain;
 
 namespace LiveDashboard.Server.Areas.Shipment.Controllers
 {
 
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ShipmentController : Controller
@@ -41,5 +42,15 @@ namespace LiveDashboard.Server.Areas.Shipment.Controllers
 
             return Ok(vms);
         }
+
+        //[HttpPost]
+        //[Route("TestCreate")]
+        //public async Task<IActionResult> TestCreate()
+        //{
+        //    var shipment = new LiveDashboard.Shared.Domain.Shipment();
+        //    await _service.CreateAsync(shipment);
+
+        //    return Ok();
+        //}
     }
 }

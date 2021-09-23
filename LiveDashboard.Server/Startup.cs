@@ -1,14 +1,17 @@
 using LiveDashboard.Core.Data;
 using LiveDashboard.Core.Identity;
 using LiveDashboard.Core.Services;
+using LiveDashboard.Server.Hubs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
 
 namespace LiveDashboard.Server
 {
@@ -45,12 +48,23 @@ namespace LiveDashboard.Server
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            // SignalR Config
+            services.AddResponseCompression(opts =>
+            {
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { "application/octet-stream" });
+            });
+            services.AddSignalR();
+
             services.AddTransient<IShipmentService, ShipmentService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseResponseCompression();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -78,6 +92,7 @@ namespace LiveDashboard.Server
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapHub<ShipmentHub>("/shipmenthub");
                 endpoints.MapFallbackToFile("index.html");
             });
         }
