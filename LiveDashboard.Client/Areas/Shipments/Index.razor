@@ -31,7 +31,11 @@ else
                     <td>@shipment.Id</td>
                     <td>@shipment.OriginAddress.Label</td>
                     <td>@shipment.DestinationAddress.Label</td>
-                    <td>@shipment.StatusFormatted</td>
+                    <td>
+                        <span class="badge badge-success" style="cursor:pointer;" @onclick="() => UpdateShipmentStatus(shipment.Id)">
+                            @shipment.StatusFormatted
+                        </span>
+                    </td>
                     <td>@shipment.InvoiceStatusFormatted</td>
                 </tr>
             }
@@ -58,7 +62,7 @@ else
             exception.Redirect();
         }
 
-        // setup connection, event handlers, and start 
+        // setup connection, event handlers, and start
         hubConnection = new HubConnectionBuilder()
             .WithUrl(NavigationManager.ToAbsoluteUri("/shipmenthub"))
             .Build();
@@ -74,6 +78,36 @@ else
         });
 
         await hubConnection.StartAsync();
+    }
+
+    private async Task UpdateShipmentStatus(int shipmentId)
+    {
+        var shipment = model.Shipments.SingleOrDefault(s => s.Id == shipmentId);
+        if (shipment != null)
+        {
+            if (shipment.Status != ShipmentStatus.Delivered)
+            {
+                shipment.Status++;
+                await hubConnection.SendAsync("UpdateStatus", shipment.Id, shipment.Status);
+            }
+        }
+    }
+
+    public bool IsConnected => hubConnection.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+
+    private async Task UpdateHeading()
+    {
+        await Task.Delay(2000);
+
+        //currentHeading = $"{newHeading}!!!";
     }
 
 }
