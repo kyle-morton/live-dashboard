@@ -1,13 +1,12 @@
 ﻿@page "/shipments"
-@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using LiveDashboard.Shared
 @using LiveDashboard.Client.ViewModels.Shipments
+@using Microsoft.AspNetCore.SignalR.Client
+@using LiveDashboard.Shared.Domain
+@inject NavigationManager NavigationManager
 @inject HttpClient Http
 
 <h1>Shipments</h1>
-
-<a @onclick="LoadMoreShipments" class="btn btn-primary">Load More</a>
 
 @if (model == null || model.Shipments == null)
 {
@@ -21,6 +20,8 @@ else
                 <th>ID</th>
                 <th>Origin</th>
                 <th>Destination</th>
+                <th>Status</th>
+                <th>Invoice Status</th>
             </tr>
         </thead>
         <tbody>
@@ -30,6 +31,8 @@ else
                     <td>@shipment.Id</td>
                     <td>@shipment.OriginAddress.Label</td>
                     <td>@shipment.DestinationAddress.Label</td>
+                    <td>@shipment.StatusFormatted</td>
+                    <td>@shipment.InvoiceStatusFormatted</td>
                 </tr>
             }
         </tbody>
@@ -39,6 +42,8 @@ else
 
 
 @code {
+
+    private HubConnection hubConnection;
 
     private IndexViewModel model;
 
@@ -52,13 +57,23 @@ else
         {
             exception.Redirect();
         }
-    }
 
-    public async Task LoadMoreShipments()
-    {
-        var response = await Http.PostAsync("Shipment", null);
-        var shipments = await response.Content.ReadFromJsonAsync<List<ShipmentViewModel>>();
-        model.Shipments.AddRange(shipments);
+        // setup connection, event handlers, and start 
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/shipmenthub"))
+            .Build();
+
+        hubConnection.On<int, ShipmentStatus>("ReceiveStatusUpdate", (shipmentId, statusId) =>
+        {
+            var shipment = model.Shipments.SingleOrDefault(s => s.Id == shipmentId);
+            if (shipment != null)
+            {
+                shipment.Status = statusId;
+                StateHasChanged();
+            }
+        });
+
+        await hubConnection.StartAsync();
     }
 
 }
