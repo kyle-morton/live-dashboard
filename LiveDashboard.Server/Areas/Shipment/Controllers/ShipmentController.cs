@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using LiveDashboard.Shared.Domain;
 using LiveDashboard.Server.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using System.IO;
 
 namespace LiveDashboard.Server.Areas.Shipment.Controllers
 {
@@ -49,11 +50,27 @@ namespace LiveDashboard.Server.Areas.Shipment.Controllers
 
         [HttpPut]
         [AllowAnonymous]
-        [Route("TestUpdate")]
-        public async Task<IActionResult> TestUpdate()
+        [Route("Status")]
+        public async Task<IActionResult> UpdateStatus(ShipmentUpdateModel model)
         {
-            await _shipmentHubContext.Clients.All.SendAsync("ReceiveStatusUpdate", 1, ShipmentStatus.ArrivedAtDelivery);
+            await _shipmentHubContext.Clients.All.SendAsync("ReceiveStatusUpdate", model.ShipmentId, model.StatusId);
             return Ok();
+        }
+
+        [HttpPut]
+        [AllowAnonymous]
+        [Route("InvoiceStatus")]
+        public async Task<IActionResult> UpdateInvoiceStatus(ShipmentUpdateModel model)
+        {
+            await _shipmentHubContext.Clients.All.SendAsync("ReceiveInvoiceStatusUpdate", model.ShipmentId, model.InvoiceStatusId);
+            return Ok();
+        }
+
+        public class ShipmentUpdateModel
+        {
+            public int ShipmentId { get; set; }
+            public ShipmentStatus StatusId { get; set; }
+            public ShipmentInvoiceStatus InvoiceStatusId { get; set; }
         }
     }
 }

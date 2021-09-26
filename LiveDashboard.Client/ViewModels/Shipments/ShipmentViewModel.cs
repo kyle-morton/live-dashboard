@@ -19,6 +19,8 @@ namespace LiveDashboard.Client.ViewModels.Shipments
         public string StatusFormatted => Status.Humanize();
         public ShipmentInvoiceStatus InvoiceStatus { get; set; }
         public string InvoiceStatusFormatted => InvoiceStatus.Humanize();
+        public DateTime ModifiedDate { get; set; }
+        public string ModifiedDateFormatted => ModifiedDate.ToString("HH:mm");
 
         public static ShipmentViewModel From(Shipment shipment)
         {

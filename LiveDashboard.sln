@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveDashboard.Client", "Liv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveDashboard.Shared", "LiveDashboard.Shared\LiveDashboard.Shared.csproj", "{493EFABB-2FC2-415A-8357-D68CAD5809DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveDashboard.Core", "LiveDashboard.Core\LiveDashboard.Core.csproj", "{DCA9C8D2-143B-460A-8967-25A3C3AD9CDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveDashboard.Core", "LiveDashboard.Core\LiveDashboard.Core.csproj", "{DCA9C8D2-143B-460A-8967-25A3C3AD9CDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveDashboard.DemoRunner", "LiveDashboard.DemoRunner\LiveDashboard.DemoRunner.csproj", "{4BCEEF09-2929-4E25-972C-2612076E523B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DCA9C8D2-143B-460A-8967-25A3C3AD9CDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCA9C8D2-143B-460A-8967-25A3C3AD9CDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCA9C8D2-143B-460A-8967-25A3C3AD9CDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BCEEF09-2929-4E25-972C-2612076E523B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BCEEF09-2929-4E25-972C-2612076E523B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BCEEF09-2929-4E25-972C-2612076E523B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BCEEF09-2929-4E25-972C-2612076E523B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

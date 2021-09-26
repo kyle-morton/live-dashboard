@@ -19,5 +19,10 @@ namespace LiveDashboard.Server.Hubs
             await Clients.All.SendAsync("ReceiveStatusUpdate", shipmentId, statusId);
         }
 
+        public async Task UpdateInvoiceStatus(int shipmentId, ShipmentInvoiceStatus statusId)
+        {
+            await Clients.All.SendAsync("ReceiveInvoiceStatusUpdate", shipmentId, statusId);
+        }
+
     }
 }

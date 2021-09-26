@@ -22,6 +22,7 @@ else
                 <th>Destination</th>
                 <th>Status</th>
                 <th>Invoice Status</th>
+                <th>Modified Date</th>
             </tr>
         </thead>
         <tbody>
@@ -37,6 +38,7 @@ else
                         </span>
                     </td>
                     <td>@shipment.InvoiceStatusFormatted</td>
+                    <td>@shipment.ModifiedDateFormatted</td>
                 </tr>
             }
         </tbody>
@@ -73,6 +75,18 @@ else
             if (shipment != null)
             {
                 shipment.Status = statusId;
+                shipment.ModifiedDate = DateTime.Now;
+                StateHasChanged();
+            }
+        });
+
+        hubConnection.On<int, ShipmentInvoiceStatus>("ReceiveInvoiceStatusUpdate", (shipmentId, statusId) =>
+        {
+            var shipment = model.Shipments.SingleOrDefault(s => s.Id == shipmentId);
+            if (shipment != null)
+            {
+                shipment.InvoiceStatus = statusId;
+                shipment.ModifiedDate = DateTime.Now;
                 StateHasChanged();
             }
         });
