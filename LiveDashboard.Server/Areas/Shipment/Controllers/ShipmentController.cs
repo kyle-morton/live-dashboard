@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 using LiveDashboard.Shared.Domain;
+using LiveDashboard.Server.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace LiveDashboard.Server.Areas.Shipment.Controllers
 {
@@ -16,10 +18,12 @@ namespace LiveDashboard.Server.Areas.Shipment.Controllers
     {
 
         private readonly IShipmentService _service;
+        private readonly IHubContext<ShipmentHub> _shipmentHubContext;
 
-        public ShipmentController(IShipmentService service)
+        public ShipmentController(IShipmentService service, IHubContext<ShipmentHub> hubContext)
         {
             _service = service;
+            _shipmentHubContext = hubContext;
         }
 
         [HttpGet]
@@ -43,14 +47,13 @@ namespace LiveDashboard.Server.Areas.Shipment.Controllers
             return Ok(vms);
         }
 
-        //[HttpPost]
-        //[Route("TestCreate")]
-        //public async Task<IActionResult> TestCreate()
-        //{
-        //    var shipment = new LiveDashboard.Shared.Domain.Shipment();
-        //    await _service.CreateAsync(shipment);
-
-        //    return Ok();
-        //}
+        [HttpPut]
+        [AllowAnonymous]
+        [Route("TestUpdate")]
+        public async Task<IActionResult> TestUpdate()
+        {
+            await _shipmentHubContext.Clients.All.SendAsync("ReceiveStatusUpdate", 1, ShipmentStatus.ArrivedAtDelivery);
+            return Ok();
+        }
     }
 }

@@ -18,5 +18,6 @@ namespace LiveDashboard.Server.Hubs
         {
             await Clients.All.SendAsync("ReceiveStatusUpdate", shipmentId, statusId);
         }
+
     }
 }
