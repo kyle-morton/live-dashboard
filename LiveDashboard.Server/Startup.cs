@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.WindowsAzure.Storage;
+using Serilog;
 using System.Linq;
 
 namespace LiveDashboard.Server
@@ -58,6 +60,14 @@ namespace LiveDashboard.Server
 
             services.AddTransient<IShipmentService, ShipmentService>();
 
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .WriteTo.AzureBlobStorage(Configuration.GetConnectionString("AzureStorage"))
+                .CreateLogger();
+
+            Log.Debug("Starting up");
+            Log.Debug("Shutting down");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
