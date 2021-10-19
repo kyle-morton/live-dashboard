@@ -1,8 +1,7 @@
-﻿@*@using LiveDashboard.Client.Components;*@
+﻿@using LiveDashboard.Client.Components;
 @inherits LayoutComponentBase
 
 
-@*<LoadingIndicator></LoadingIndicator>*@
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -10,8 +9,8 @@
 
     <div class="main">
         <div class="top-row px-4 auth">
+            <LoadingIndicator></LoadingIndicator>
             <LoginDisplay />
-            @*<a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>*@
         </div>
 
         <div class="content px-4">

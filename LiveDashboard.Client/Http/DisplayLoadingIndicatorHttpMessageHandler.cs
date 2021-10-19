@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LiveDashboard.Client
+namespace LiveDashboard.Client.Http
 {
     public class DisplayLoadingIndicatorHttpMessageHandler : DelegatingHandler
     {
